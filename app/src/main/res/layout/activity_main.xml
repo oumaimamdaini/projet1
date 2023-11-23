@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="View.MainActivity"
+    tools:context=".pr1.View.MainActivity"
     android:background="@drawable/app_background"
     android:orientation="vertical"
     android:padding="20dp"

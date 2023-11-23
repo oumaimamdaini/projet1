@@ -1,4 +1,4 @@
-package View;
+package com.example.projet1.pr1.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,12 +15,15 @@ import android.widget.Toast;
 
 import com.example.projet1.R;
 
+import com.example.projet1.pr1.Controller.Controller;
+
 public class MainActivity extends AppCompatActivity {
     private EditText et;
     private TextView tvAge,tvReponse;
     private RadioButton rb1,rb2;
     private SeekBar sk;
     private Button bt;
+    private Controller controller= Controller.getinstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
