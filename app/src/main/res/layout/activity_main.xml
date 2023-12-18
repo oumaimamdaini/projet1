@@ -9,6 +9,7 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:layout_gravity="center"
+    android:onClick="calculer"
     >
 
     <TextView

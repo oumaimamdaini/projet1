@@ -3,8 +3,8 @@ package com.example.projet1.pr1.Controller;
 import com.example.projet1.pr1.Model.Patient;
 
 public final class Controller {
-    private static Patient patient;
-    public static Controller instance=null;
+    public static Patient patient;
+    private static Controller instance=null;
     private Controller() {super();
     }
 
@@ -24,4 +24,9 @@ public final class Controller {
     }
     public String getResult(){
         return patient.getTvReponse();
-    }}
+    }
+    public static Patient getPatient(){
+        return patient;
+    }
+
+}

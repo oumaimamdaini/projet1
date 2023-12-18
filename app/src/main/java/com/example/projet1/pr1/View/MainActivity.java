@@ -2,6 +2,7 @@ package com.example.projet1.pr1.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.example.projet1.R;
 import com.example.projet1.pr1.Controller.Controller;
 
 public class MainActivity extends AppCompatActivity {
+    private final int REQUEST_CODE = 1;
     private EditText et;
     private TextView tvAge,tvReponse;
     private RadioButton rb1,rb2;
@@ -52,58 +54,48 @@ public class MainActivity extends AppCompatActivity {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calculer(v);
+                Log.i("Information", "button cliqué");
+
+                int age;
+                float valeurMesuree;
+                boolean verifAge = false, verifValeur = false;
+
+                if(sk.getProgress()!=0)
+                    verifAge = true;
+                else
+                    Toast.makeText(MainActivity.this, "Veuillez saisir votre age !", Toast.LENGTH_SHORT).show();
+
+                if(!et.getText().toString().isEmpty())
+                    verifValeur = true;
+                else
+                    Toast.makeText(MainActivity.this, "Veuillez saisir votre valeur mesurée !", Toast.LENGTH_LONG).show();
+
+                if(verifAge && verifValeur)
+                {
+                    age = sk.getProgress();
+                    valeurMesuree = Float.valueOf(et.getText().toString());
+
+                    //Flèche "User action" Vue --> Controller
+                    controller.createPatient(age, valeurMesuree, rb1.isChecked());
+
+                    //Flèche "Update" Controller --> vue
+
+                    Intent intent = new Intent (MainActivity.this, ConsultActivity.class);
+                    intent.putExtra("reponse",controller.getResult());
+                    startActivityForResult(intent, REQUEST_CODE);
+                }
             }
         });
-
     }
-    public void calculer(View view){
-    Log.i("Information","button cliqué");
-        int age;
-        float valeurMesuree;
-        boolean verifAge = false, verifValeur = false;
-        if(sk.getProgress()!=0)
-            verifAge = true;
-        else
-            Toast.makeText(MainActivity.this, "Veuillez saisir votre age !",
-                    Toast.LENGTH_SHORT).show();
-        if(!et.getText().toString().isEmpty())
-            verifValeur = true;
-        else
-            Toast.makeText(MainActivity.this, "Veuillez saisir votre valeur mesurée !", Toast.LENGTH_LONG).show();
-        if(verifAge && verifValeur) {
-            age = sk.getProgress();
-            valeurMesuree = Float.valueOf(et.getText().toString());
-            boolean isFasting = rb1.isChecked();
-            if (isFasting) {
-                if (age >= 13) {
-                    if (valeurMesuree < 5.0)
-                        tvReponse.setText("Niveau de glycémie est trop bas");
-                    else if (valeurMesuree >= 5.0 && valeurMesuree <= 7.2)
-                        tvReponse.setText("Niveau de glycémie est normale");
-                    else
-                        tvReponse.setText("Niveau de glycémie est trop élevé");
-                } else if (age >= 6 && age <= 12) {
-                    if (valeurMesuree < 5.0)
-                        tvReponse.setText("Niveau de glycémie est trop bas");
-                    else if (valeurMesuree >= 5.0 && valeurMesuree <= 10.0)
-                        tvReponse.setText("Niveau de glycémie est normale");
-                    else
-                        tvReponse.setText("Niveau de glycémie est trop élevé");
-                } else if (age < 6) {
-                    if (valeurMesuree < 5.5)
-                        tvReponse.setText("Niveau de glycémie est trop bas");
-                    else if (valeurMesuree >= 5.5 && valeurMesuree <= 10.0)
-                        tvReponse.setText("Niveau de glycémie est normale");
-                    else
-                        tvReponse.setText("Niveau de glycémie est trop élevé");
-                }
-            } else {
-                if (valeurMesuree > 10.5)
-                    tvReponse.setText("Niveau de glycémie est trop élevé");
-                else
-                    tvReponse.setText("Niveau de glycémie est normale");
-            }}}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE)
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(MainActivity.this, "ERROR : RESULT_CANCELED", Toast.LENGTH_SHORT).show();
+            }
+    }
             private void init() {
 
                 et = findViewById(R.id.vm);

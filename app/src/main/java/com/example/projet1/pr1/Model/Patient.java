@@ -5,6 +5,7 @@ public class Patient {
     boolean jeuner;
     float valeurMesuree;
     String tvReponse;
+    //Flèche "Update" Controller --> Model
     public Patient(int age, boolean jeuner, float valeurMesuree) {
         this.age = age;
         this.jeuner = jeuner;
@@ -12,6 +13,7 @@ public class Patient {
         calculer();
     }
 
+    //Flèche "Notify" Model --> Controller
     public String getTvReponse() {
         return tvReponse;
     }
@@ -28,8 +30,6 @@ public class Patient {
     public int getAge() {
         return age;
     }
-
-
 
 
     public void calculer() {
